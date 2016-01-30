@@ -1,0 +1,15 @@
+en:
+  vagrant_xhyve:
+    states:
+      short_not_created: |-
+        not created
+      long_not_created: |-
+        The environment has not yet been created. Run `vagrant up` to
+        create the environment.
+
+    errors:
+      xhyve_not_detected: |-
+        Xhyve could not be detected on this machine. You can install Xhyve
+        using Homebrew with `brew install xhyve` or follow instructions in
+        https://github.com/mist64/xhyve. If Xhyve is already installed,
+        make sure `xhyve` binary is in $PATH.

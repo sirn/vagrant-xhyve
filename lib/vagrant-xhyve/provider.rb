@@ -5,6 +5,21 @@ module VagrantPlugins
         @machine = machine
       end
 
+      def self.installed?
+        Driver.new
+        true
+      rescue Errors::XhyveNotDetected
+        return false
+      end
+
+      def self.usable?(raise_error=false)
+        Driver.new
+        true
+      rescue Errors::XhyveNotDetected
+        raise if raise_error
+        false
+      end
+
       def action(name)
         action_method = "action_#{name}"
         if Action.respond_to?(action_method)
