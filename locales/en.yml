@@ -1,5 +1,10 @@
 en:
   vagrant_xhyve:
+    commands:
+      common:
+        vm_already_running: |-
+          Xhyve instance is already running.
+
     states:
       short_not_created: |-
         not created
