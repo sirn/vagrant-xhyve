@@ -18,3 +18,9 @@ en:
         using Homebrew with `brew install xhyve` or follow instructions in
         https://github.com/mist64/xhyve. If Xhyve is already installed,
         make sure `xhyve` binary is in $PATH.
+
+    warnings:
+      unclean_shutdown: |-
+        The VM doesn't appeared to be cleanly stopped the last time.
+        This may due to a reboot or Xhyve unexpectedly stopped.
+        Use `vagrant halt` or `vagrant destroy` to stop the VM cleanly.

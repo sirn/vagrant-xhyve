@@ -15,6 +15,12 @@ module VagrantPlugins
         end
       end
 
+      def cleanup
+        File.delete(pid_file)
+      rescue Errno::ENOENT
+        nil
+      end
+
       def import(source)
         FileUtils.cp_r(source.to_s, image_dir)
       end

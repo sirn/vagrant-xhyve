@@ -8,8 +8,10 @@ module VagrantPlugins
 
       action_root = Pathname.new(File.expand_path('../action', __FILE__))
       autoload :Boot, action_root.join('boot')
+      autoload :Cleanup, action_root.join('cleanup')
       autoload :Import, action_root.join('import')
       autoload :ReadState, action_root.join('read_state')
+      autoload :Warn, action_root.join('warn')
 
       def self.action_boot
         Vagrant::Action::Builder.new.tap do |b|
@@ -31,6 +33,13 @@ module VagrantPlugins
             if env[:result]
               b1.use Message, I18n.t('vagrant_xhyve.commands.common.vm_already_running')
               next
+            end
+
+            b1.use Call, IsState, :unclean_shutdown do |env2, b2|
+              if env2[:result]
+                b2.use Warn, I18n.t('vagrant_xhyve.warnings.unclean_shutdown')
+                b2.use Cleanup
+              end
             end
 
             b1.use action_boot
