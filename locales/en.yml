@@ -1,16 +1,17 @@
 en:
   vagrant_xhyve:
+    actions:
+      vm:
+        boot:
+          booting_sudo: |-
+            In order to create network interface, you may be asked
+            to enter root password in the next step. This limitation
+            will be lifted once Xhyve binary is code-signed.
+
     commands:
       common:
         vm_already_running: |-
           Xhyve instance is already running.
-
-    states:
-      short_not_created: |-
-        not created
-      long_not_created: |-
-        The environment has not yet been created. Run `vagrant up` to
-        create the environment.
 
     errors:
       xhyve_not_detected: |-
@@ -18,6 +19,13 @@ en:
         using Homebrew with `brew install xhyve` or follow instructions in
         https://github.com/mist64/xhyve. If Xhyve is already installed,
         make sure `xhyve` binary is in $PATH.
+
+    states:
+      short_not_created: |-
+        not created
+      long_not_created: |-
+        The environment has not yet been created. Run `vagrant up` to
+        create the environment.
 
     warnings:
       unclean_shutdown: |-

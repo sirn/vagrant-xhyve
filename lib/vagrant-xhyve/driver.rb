@@ -9,9 +9,28 @@ module VagrantPlugins
       end
 
       def self.detect!
-        IO.popen("xhyve -v 2>&1").tap { |f| f.read }.close
+        IO.popen('xhyve -v 2>&1').tap { |f| f.read }.close
         unless $?.success?
           raise Errors::XhyveNotDetected
+        end
+      end
+
+      def boot(params)
+        command = ['xhyve']
+        command << '-A' if params[:acpi]
+        command += ["-m", params[:memory]] if params[:memory]
+        command += ["-c", params[:cpus]] if params[:cpus]
+
+        params[:pcis].each do |pci|
+          command += ["-s", pci]
+        end
+
+        command += ["-l", params[:lpc]] if params[:lpc]
+        command += ["-U", @id]
+        command += ["-f", params[:firmware]]
+
+        Dir.chdir(image_dir) do
+          puts "sudo #{Shellwords.join(command)} 2>&1 >/dev/null"
         end
       end
 
@@ -42,6 +61,10 @@ module VagrantPlugins
 
       def image_dir
         @image_dir ||= @data_dir.join(@id)
+      end
+
+      def log_file
+        @log_file ||= @data_dir.join('xhyve.log')
       end
 
       def pid
