@@ -34,8 +34,11 @@ module VagrantPlugins
         # to interact with it.
         Dir.chdir(image_dir) do
           IO.popen(
-            "sudo -b sh -c \"echo \\$\\$ >#{Shellwords.escape(pid_file)}; " + \
-            "exec #{Shellwords.join(command)} </dev/null >/dev/null 2>&1\""
+            "sudo -b sh -c \"echo \\$\\$ >#{Shellwords.escape(pid_file)}; " +
+            "exec #{Shellwords.join(command)} " +
+            "</dev/null " +
+            ">/dev/null " +
+            "2>&1\""
           )
         end
       end
@@ -52,7 +55,7 @@ module VagrantPlugins
 
       def state
         if pid
-          IO.popen("sudo kill -0 #{pid}").tap { |f| f.read }.close
+          IO.popen("ps -p #{pid}").tap { |f| f.read }.close
           if $?.success?
             :running
           else
@@ -67,10 +70,6 @@ module VagrantPlugins
 
       def image_dir
         @image_dir ||= @data_dir.join(@id)
-      end
-
-      def log_file
-        @log_file ||= @data_dir.join('xhyve.log')
       end
 
       def pid
