@@ -29,8 +29,14 @@ module VagrantPlugins
         command += ["-U", @id]
         command += ["-f", params[:firmware]]
 
+        # Big hack ahead. sudo -b will run the process in background but that
+        # will make IO.popen return pid of sudo. We need actual pid of xhyve
+        # to interact with it.
         Dir.chdir(image_dir) do
-          puts "sudo #{Shellwords.join(command)} 2>&1 >/dev/null"
+          IO.popen(
+            "sudo -b sh -c \"echo \\$\\$ >#{Shellwords.escape(pid_file)}; " + \
+            "exec #{Shellwords.join(command)} </dev/null >/dev/null 2>&1\""
+          )
         end
       end
 
@@ -46,10 +52,10 @@ module VagrantPlugins
 
       def state
         if pid
-          begin
-            Process.kill(0, pid)
+          IO.popen("sudo kill -0 #{pid}").tap { |f| f.read }.close
+          if $?.success?
             :running
-          rescue Errno::ESRCH
+          else
             :unclean_shutdown
           end
         else
