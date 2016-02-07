@@ -8,6 +8,10 @@ module VagrantPlugins
       class XhyveNotDetected < VagrantXhyveError
         error_key(:xhyve_not_detected)
       end
+
+      class VmnetNotAvailable < VagrantXhyveError
+        error_key(:vmnet_not_available)
+      end
     end
   end
 end

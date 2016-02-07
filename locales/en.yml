@@ -4,9 +4,9 @@ en:
       vm:
         boot:
           booting_sudo: |-
-            In order to create network interface, you may be asked
-            to enter root password in the next step. This limitation
-            will be lifted once Xhyve binary is code-signed.
+            You may be asked to enter root password in the next step
+            to create network interface. This limitation will be
+            lifted once Xhyve binary and helper tool is code-signed.
 
     commands:
       common:
@@ -19,6 +19,11 @@ en:
         using Homebrew with `brew install xhyve` or follow instructions in
         https://github.com/mist64/xhyve. If Xhyve is already installed,
         make sure `xhyve` binary is in $PATH.
+
+      vmnet_not_available: |-
+        Vagrant-Xhyve could not resolve MAC address from Vmnet.framework.
+        This may be due to lack of permission or there is already a Xhyve
+        instance running for this VM.
 
     states:
       short_not_created: |-
