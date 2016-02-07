@@ -3,6 +3,8 @@ require 'pathname'
 module VagrantPlugins
   module Xhyve
     class Driver
+      DHCPD_LEASES = '/var/db/dhcpd_leases'.freeze
+
       def initialize(id, data_dir)
         @id = id
         @data_dir = Pathname.new(data_dir)
@@ -49,6 +51,11 @@ module VagrantPlugins
             '2>&1"'
           )
         end
+
+        store_ip_address!
+        unless ip_address
+          raise Errors::XhyveBootedWithoutIpAddress
+        end
       end
 
       def cleanup
@@ -57,8 +64,20 @@ module VagrantPlugins
         nil
       end
 
+      def ip_address
+        @ip_address ||= if File.exists?(ip_address_file)
+          File.read(ip_address_file).chomp.to_s
+        end
+      end
+
       def import(source)
         FileUtils.cp_r(source.to_s, image_dir)
+      end
+
+      def mac_address
+        @mac_address ||= if File.exists?(mac_address_file)
+          File.read(mac_address_file).chomp.to_s
+        end
       end
 
       def state
@@ -80,10 +99,8 @@ module VagrantPlugins
         @image_dir ||= @data_dir.join(@id)
       end
 
-      def mac_address
-        @mac_address ||= if File.exists?(mac_address_file)
-          File.read(mac_address_file).chomp.to_s
-        end
+      def ip_address_file
+        @ip_address_file ||= @data_dir.join('ip_address')
       end
 
       def mac_address_file
@@ -100,9 +117,31 @@ module VagrantPlugins
         @pid_file ||= @data_dir.join('pid')
       end
 
+      def store_ip_address!
+        unless ip_address
+          if mac_address
+            leases_data = File.read(DHCPD_LEASES)
+            parser = DhcpdLeasesParser.new
+            leases = parser.parse(leases_data)
+
+            matched_lease = leases.select do |lease|
+              lease['hw_address'].split(",")[1] == mac_address
+            end.first
+
+            if matched_lease
+              File.open(ip_address_file, 'wb') do |file|
+                file.write(matched_lease['ip_address'])
+              end
+            end
+          end
+        end
+      rescue Racc::ParseError
+        nil
+      end
+
       def store_mac_address!
         unless mac_address
-          lib_dir = VagrantPlugins::Xhyve.source_root.join('lib')
+          lib_dir = Xhyve.source_root.join('lib')
           uid = Shellwords.escape(@id)
 
           fd = IO.popen(
@@ -117,6 +156,7 @@ module VagrantPlugins
 
           if addr.match(/^\w{,2}:\w{,2}:\w{,2}:\w{,2}:\w{,2}:\w{,2}$/)
             @mac_address = addr
+            @ip_address = nil
             File.open(mac_address_file, 'wb') do |file|
               file.write(addr)
             end
