@@ -12,3 +12,8 @@
 /pkg/
 /spec/reports/
 /tmp/
+
+# Ext
+Makefile
+*.bundle
+*.o

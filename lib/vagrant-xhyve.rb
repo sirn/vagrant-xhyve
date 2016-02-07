@@ -7,6 +7,7 @@ module VagrantPlugins
     autoload :Action, lib_path.join('action')
     autoload :Driver, lib_path.join('driver')
     autoload :Errors, lib_path.join('errors')
+    autoload :VmnetMac, lib_path.join('vmnet_mac')
 
     def self.source_root
       @source_root ||= Pathname.new(File.expand_path('../../', __FILE__))

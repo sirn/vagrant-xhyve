@@ -18,16 +18,16 @@ module VagrantPlugins
       def boot(params)
         command = ['xhyve']
         command << '-A' if params[:acpi]
-        command += ["-m", params[:memory]] if params[:memory]
-        command += ["-c", params[:cpus]] if params[:cpus]
+        command += ['-m', params[:memory]] if params[:memory]
+        command += ['-c', params[:cpus]] if params[:cpus]
 
         params[:pcis].each do |pci|
-          command += ["-s", pci]
+          command += ['-s', pci]
         end
 
-        command += ["-l", params[:lpc]] if params[:lpc]
-        command += ["-U", @id]
-        command += ["-f", params[:firmware]]
+        command += ['-l', params[:lpc]] if params[:lpc]
+        command += ['-U', @id]
+        command += ['-f', params[:firmware]]
 
         # Big hack ahead. sudo -b will run the process in background but that
         # will make IO.popen return pid of sudo. We need actual pid of xhyve
@@ -36,9 +36,9 @@ module VagrantPlugins
           IO.popen(
             "sudo -b sh -c \"echo \\$\\$ >#{Shellwords.escape(pid_file)}; " +
             "exec #{Shellwords.join(command)} " +
-            "</dev/null " +
-            ">/dev/null " +
-            "2>&1\""
+            '</dev/null ' +
+            '>/dev/null ' +
+            '2>&1"'
           )
         end
       end
