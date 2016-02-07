@@ -49,7 +49,11 @@ module VagrantPlugins
             '</dev/null ' +
             '>/dev/null ' +
             '2>&1"'
-          )
+          ) do |fd|
+            # We need some way to make IO.popen waits for sudo prompt.
+            # Apparently give it a block does the trick.
+            nil
+          end
         end
 
         store_ip_address!
