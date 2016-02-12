@@ -55,6 +55,12 @@ module VagrantPlugins
         end
       end
 
+      def self.action_resume
+        Vagrant::Action::Builder.new.tap do |b|
+          b.use Warn, I18n.t('vagrant_xhyve.actions.vm.resume.not_supported')
+        end
+      end
+
       def self.action_ssh
         Vagrant::Action::Builder.new.tap do |b|
           b.use ConfigValidate
@@ -80,6 +86,12 @@ module VagrantPlugins
 
             b1.use action_boot
           end
+        end
+      end
+
+      def self.action_suspend
+        Vagrant::Action::Builder.new.tap do |b|
+          b.use Warn, I18n.t('vagrant_xhyve.actions.vm.suspend.not_supported')
         end
       end
 
