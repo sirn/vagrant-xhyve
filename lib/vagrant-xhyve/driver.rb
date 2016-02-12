@@ -125,7 +125,7 @@ module VagrantPlugins
         unless ip_address
           if mac_address
             leases_data = File.read(DHCPD_LEASES)
-            parser = DhcpdLeasesParser.new
+            parser = Support::DhcpdLeases.new
             leases = parser.parse(leases_data)
 
             matched_lease = leases.select do |lease|
@@ -152,7 +152,7 @@ module VagrantPlugins
             "sudo #{Shellwords.escape(RbConfig.ruby)} " +
             "-I#{Shellwords.escape(lib_dir)} " +
             "-e \"require 'vagrant-xhyve/vmnet_mac'; " +
-            "puts VagrantPlugins::Xhyve::VmnetMac.from_uuid('#{uid}')\""
+            "puts VagrantPlugins::Xhyve::Support::VmnetMac.from_uuid('#{uid}')\""
           )
 
           addr = fd.read.chomp

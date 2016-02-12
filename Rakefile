@@ -3,12 +3,12 @@ require 'bundler/gem_tasks'
 require 'rake/testtask'
 require 'rake/extensiontask'
 
-LIB_DIR = 'lib/vagrant-xhyve'.freeze
-DHCPD_PARSER = "#{LIB_DIR}/dhcpd_leases_parser.rb".freeze
+SUPPORT_DIR = 'lib/vagrant-xhyve/support'.freeze
+DHCPD_PARSER = "#{SUPPORT_DIR}/dhcpd_leases.rb".freeze
 
 Rake::ExtensionTask.new('vmnet_mac') do |ext|
-  ext.ext_dir = 'ext/vagrant-xhyve'
-  ext.lib_dir = LIB_DIR
+  ext.ext_dir = 'ext/vagrant-xhyve/support'
+  ext.lib_dir = SUPPORT_DIR
 end
 
 Rake::TestTask.new(:test) do |t|
@@ -17,7 +17,7 @@ Rake::TestTask.new(:test) do |t|
   t.test_files = FileList['test/**/*_test.rb']
 end
 
-file DHCPD_PARSER => "#{LIB_DIR}/dhcpd_leases_parser.y" do |t|
+file DHCPD_PARSER => "#{SUPPORT_DIR}/dhcpd_leases.y" do |t|
   sh "racc -o #{t.name} #{t.prerequisites.first}"
 end
 

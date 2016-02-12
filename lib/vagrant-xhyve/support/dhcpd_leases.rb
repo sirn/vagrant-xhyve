@@ -7,9 +7,10 @@
 require 'racc/parser.rb'
 module VagrantPlugins
   module Xhyve
-    class DhcpdLeasesParser < Racc::Parser
+    module Support
+      class DhcpdLeases < Racc::Parser
 
-module_eval(<<'...end dhcpd_leases_parser.y/module_eval...', 'dhcpd_leases_parser.y', 12)
+module_eval(<<'...end dhcpd_leases.y/module_eval...', 'dhcpd_leases.y', 12)
 
 def parse(str)
   @str = str
@@ -37,7 +38,7 @@ def scan
 
   yield([false, '$'])
 end
-...end dhcpd_leases_parser.y/module_eval...
+...end dhcpd_leases.y/module_eval...
 ##### State transition tables begin ###
 
 racc_action_table = [
@@ -124,28 +125,28 @@ Racc_debug_parser = false
 
 # reduce 0 omitted
 
-module_eval(<<'.,.,', 'dhcpd_leases_parser.y', 4)
+module_eval(<<'.,.,', 'dhcpd_leases.y', 4)
   def _reduce_1(val, _values, result)
      result = [val[1]] 
     result
   end
 .,.,
 
-module_eval(<<'.,.,', 'dhcpd_leases_parser.y', 5)
+module_eval(<<'.,.,', 'dhcpd_leases.y', 5)
   def _reduce_2(val, _values, result)
      result = result.push(val[2]) 
     result
   end
 .,.,
 
-module_eval(<<'.,.,', 'dhcpd_leases_parser.y', 7)
+module_eval(<<'.,.,', 'dhcpd_leases.y', 7)
   def _reduce_3(val, _values, result)
      result = {val[0] => val[2]} 
     result
   end
 .,.,
 
-module_eval(<<'.,.,', 'dhcpd_leases_parser.y', 8)
+module_eval(<<'.,.,', 'dhcpd_leases.y', 8)
   def _reduce_4(val, _values, result)
      result[val[1]] = val[3] 
     result
@@ -156,6 +157,7 @@ def _reduce_none(val, _values, result)
   val[0]
 end
 
-    end   # class DhcpdLeasesParser
+      end   # class DhcpdLeases
+      end   # module Support
     end   # module Xhyve
   end   # module VagrantPlugins

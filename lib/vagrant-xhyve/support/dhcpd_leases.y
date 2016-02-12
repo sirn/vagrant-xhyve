@@ -1,4 +1,4 @@
-class VagrantPlugins::Xhyve::DhcpdLeasesParser
+class VagrantPlugins::Xhyve::Support::DhcpdLeases
 rule
 
 blocks:

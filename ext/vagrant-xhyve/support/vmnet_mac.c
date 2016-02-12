@@ -24,6 +24,7 @@ VALUE from_uuid(VALUE self, VALUE rb_uuid_str) {
 void Init_vmnet_mac() {
   VALUE rb_VagrantPlugins = rb_define_module("VagrantPlugins");
   VALUE rb_Xhyve = rb_define_module_under(rb_VagrantPlugins, "Xhyve");
-  VALUE rb_VmnetMac = rb_define_class_under(rb_Xhyve, "VmnetMac", rb_cObject);
+  VALUE rb_Support = rb_define_module_under(rb_Xhyve, "Support");
+  VALUE rb_VmnetMac = rb_define_class_under(rb_Support, "VmnetMac", rb_cObject);
   rb_define_singleton_method(rb_VmnetMac, "from_uuid", from_uuid, 1);
 }
