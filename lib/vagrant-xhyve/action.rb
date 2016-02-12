@@ -18,6 +18,7 @@ module VagrantPlugins
       def self.action_boot
         Vagrant::Action::Builder.new.tap do |b|
           b.use Boot
+          b.use WaitForCommunicator, [:running]
         end
       end
 

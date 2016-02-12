@@ -54,6 +54,12 @@ en:
         The environment has not yet been created. Run `vagrant up` to
         create the environment.
 
+      short_not_running: |-
+        not running
+
+      long_not_running: |-
+        The VM is powered off. To restart the VM, run `vagrant up`
+
       short_running: |-
         running
 
