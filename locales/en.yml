@@ -8,10 +8,18 @@ en:
             to create network interface. This limitation will be
             lifted once Xhyve binary and helper tool is code-signed.
 
+        halt:
+          force: |-
+            Forcing shutdown of VM...
+
     commands:
       common:
         vm_already_running: |-
           Xhyve instance is already running.
+
+        vm_not_running: |-
+          Xhyve instance is not currently running. Please first bring it
+          up with `vagrant up` then run this command.
 
     errors:
       vmnet_not_available: |-

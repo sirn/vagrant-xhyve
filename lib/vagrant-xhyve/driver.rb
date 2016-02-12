@@ -68,6 +68,16 @@ module VagrantPlugins
         nil
       end
 
+      def poweroff
+        if pid
+          IO.popen("sudo kill #{pid}")
+          loop do
+            break if state != :running
+            sleep 1
+          end
+        end
+      end
+
       def ip_address
         @ip_address ||= if File.exists?(ip_address_file)
           File.read(ip_address_file).chomp.to_s
