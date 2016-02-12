@@ -98,13 +98,10 @@ module VagrantPlugins
         if pid
           IO.popen("ps -p #{pid}").tap { |f| f.read }.close
           if $?.success?
-            :running
-          else
-            :unclean_shutdown
+            return :running
           end
-        else
-          :not_running
         end
+        :not_running
       end
 
       private

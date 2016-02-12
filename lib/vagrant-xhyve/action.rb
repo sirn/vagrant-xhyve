@@ -56,13 +56,6 @@ module VagrantPlugins
               next
             end
 
-            b1.use Call, IsState, :unclean_shutdown do |env2, b2|
-              if env2[:result]
-                b2.use Warn, I18n.t('vagrant_xhyve.warnings.unclean_shutdown')
-                b2.use Cleanup
-              end
-            end
-
             b1.use action_boot
           end
         end
