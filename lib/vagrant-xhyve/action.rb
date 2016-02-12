@@ -76,6 +76,20 @@ module VagrantPlugins
         end
       end
 
+      def self.action_ssh_run
+        Vagrant::Action::Builder.new.tap do |b|
+          b.use ConfigValidate
+          b.use Call, IsState, :running do |env, b1|
+            if !env[:result]
+              b1.use Message, I18n.t('vagrant_xhyve.commands.common.vm_not_running')
+              next
+            end
+
+            b1.use SSHRun
+          end
+        end
+      end
+
       def self.action_start
         Vagrant::Action::Builder.new.tap do |b|
           b.use ConfigValidate
