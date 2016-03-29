@@ -1,3 +1,5 @@
+require 'pathname'
+
 module VagrantPlugins
   module Xhyve
     module Support
