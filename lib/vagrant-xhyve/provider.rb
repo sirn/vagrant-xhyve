@@ -9,14 +9,14 @@ module VagrantPlugins
       end
 
       def self.installed?
-        Driver.detect!
+        Driver::SudoXhyve.detect!
         true
       rescue Errors::XhyveNotDetected
         false
       end
 
       def self.usable?(raise_error=false)
-        Driver.detect!
+        Driver::SudoXhyve.detect!
         true
       rescue Errors::XhyveNotDetected
         raise if raise_error
@@ -31,7 +31,7 @@ module VagrantPlugins
       end
 
       def machine_id_changed
-        @driver = Driver.new(@machine.id, @machine.data_dir)
+        @driver = Driver::SudoXhyve.new(@machine.id, @machine.data_dir)
       end
 
       def ssh_info
