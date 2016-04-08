@@ -34,9 +34,13 @@ en:
 
     errors:
       vmnet_not_available: |-
-        Vagrant-Xhyve could not resolve MAC address from Vmnet.framework.
-        This may be due to lack of permission or there is already a Xhyve
-        instance running for this VM.
+        Vagrant-Xhyve could not obtain MAC address from Vmnet. This is
+        usually caused by lack of permission or there is an instance of
+        this VM already running.
+
+        If this box is new, it could be due to Vmnet could not recognize
+        the machine UUID. In this case, running `vagrant destroy` and
+        run `vagrant up` again should help.
 
       xhyve_booted_without_ip_address: |-
         Xhyve was successfully booted, but Vagrant-Xhyve could not obtain
@@ -48,6 +52,7 @@ en:
         using Homebrew with `brew install xhyve` or follow instructions in
         https://github.com/mist64/xhyve. If Xhyve is already installed,
         make sure `xhyve` binary is in $PATH.
+
 
     states:
       short_not_created: |-
