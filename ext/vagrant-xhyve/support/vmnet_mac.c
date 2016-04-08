@@ -1,5 +1,4 @@
 #include "ruby.h"
-#include "support/uuid.h"
 #include "support/vmr.h"
 
 VALUE from_uuid(VALUE self, VALUE rb_uuid_str) {

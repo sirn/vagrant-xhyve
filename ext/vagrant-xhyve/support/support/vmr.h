@@ -1,5 +1,6 @@
 #include <vmnet/vmnet.h>
 #include <dispatch/dispatch.h>
+#include "uuid.h"
 
 struct vmr_state {
   interface_ref iface;
