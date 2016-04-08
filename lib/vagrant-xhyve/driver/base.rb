@@ -78,28 +78,6 @@ module VagrantPlugins
         def pid_file
           @pid_file ||= @data_dir.join('pid')
         end
-
-        def store_ip_address!
-          unless ip_address
-            if mac_address
-              leases_data = File.read(DHCPD_LEASES)
-              parser = Support::DhcpdLeases.new
-              leases = parser.parse(leases_data)
-
-              matched_lease = leases.select do |lease|
-                lease['hw_address'].split(",")[1] == mac_address
-              end.first
-
-              if matched_lease
-                File.open(ip_address_file, 'wb') do |file|
-                  file.write(matched_lease['ip_address'])
-                end
-              end
-            end
-          end
-        rescue Racc::ParseError
-          nil
-        end
       end
     end
   end
