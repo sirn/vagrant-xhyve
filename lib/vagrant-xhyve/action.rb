@@ -9,6 +9,7 @@ module VagrantPlugins
       action_root = Pathname.new(File.expand_path('../action', __FILE__))
       autoload :Boot, action_root.join('boot')
       autoload :Cleanup, action_root.join('cleanup')
+      autoload :Destroy, action_root.join('destroy')
       autoload :ForcedHalt, action_root.join('forced_halt')
       autoload :Import, action_root.join('import')
       autoload :ReadSSHInfo, action_root.join('read_ssh_info')
@@ -22,23 +23,45 @@ module VagrantPlugins
         end
       end
 
+      def self.action_destroy
+        Vagrant::Action::Builder.new.tap do |b|
+          b.use ConfigValidate
+          b.use Call, IsState, Vagrant::MachineState::NOT_CREATED_ID do |env, b1|
+            if env[:result]
+              b1.use Message, I18n.t('vagrant_xhyve.commands.common.vm_not_created')
+              next
+            end
+
+            b1.use Call, DestroyConfirm do |env2, b2|
+              if !env2[:result]
+                b2.use Message, I18n.t(
+                  'vagrant.commands.destroy.will_not_destroy',
+                  name: env2[:machine].name)
+                next
+              end
+
+              b2.use EnvSet, force_halt: true
+              b2.use action_halt
+              b2.use Destroy
+              b2.use ProvisionerCleanup
+              b2.use SyncedFolderCleanup
+            end
+          end
+        end
+      end
+
       def self.action_halt
         Vagrant::Action::Builder.new.tap do |b|
           b.use ConfigValidate
           b.use Call, IsState, :running do |env, b1|
-            if !env[:result]
-              b1.use Message, I18n.t('vagrant_xhyve.commands.common.vm_not_running')
-              next
-            end
-
             b1.use Call, GracefulHalt, :not_running, :running do |env2, b2|
               if !env2[:result]
                 b2.use ForcedHalt
               end
             end
-
-            b1.use Cleanup
           end
+
+          b.use Cleanup
         end
       end
 

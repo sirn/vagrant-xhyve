@@ -25,6 +25,9 @@ en:
         vm_already_running: |-
           Xhyve instance is already running.
 
+        vm_not_created: |-
+          VM not created. Moving on...
+
         vm_not_running: |-
           Xhyve instance is not currently running. Please first bring it
           up with `vagrant up` then run this command.

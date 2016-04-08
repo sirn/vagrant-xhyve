@@ -25,6 +25,12 @@ module VagrantPlugins
           nil
         end
 
+        def destroy
+          FileUtils.rm_rf(image_dir)
+          File.delete(ip_address_file) rescue nil
+          File.delete(mac_address_file) rescue nil
+        end
+
         def poweroff
           raise NotImplementedError
         end

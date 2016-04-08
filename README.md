@@ -19,7 +19,7 @@ The plugin is in a very early state and should not be used for anything except t
 | Resume              | Not supported by Xhyve
 | Force shutdown      | Working
 | Graceful shutdown   | Not implemented
-| Destroying          | Not implemented
+| Destroying          | Working
 
 ### Installation
 
