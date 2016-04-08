@@ -96,7 +96,7 @@ module VagrantPlugins
             fd = IO.popen(
               "sudo #{Shellwords.escape(RbConfig.ruby)} " +
               "-I#{Shellwords.escape(lib_dir)} " +
-              "-e \"require 'vagrant-xhyve/vmnet_mac'; " +
+              "-e \"require 'vagrant-xhyve/support/vmnet_mac'; " +
               "puts VagrantPlugins::Xhyve::Support::VmnetMac.from_uuid('#{uid}')\""
             )
 
