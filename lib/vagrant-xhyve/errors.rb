@@ -5,12 +5,12 @@ module VagrantPlugins
         error_namespace('vagrant_xhyve.errors')
       end
 
-      class VmnetNotAvailable < VagrantXhyveError
-        error_key(:vmnet_not_available)
+      class IpAddressNotAvailable < VagrantXhyveError
+        error_key(:ip_address_not_available)
       end
 
-      class XhyveBootedWithoutIpAddress < VagrantXhyveError
-        error_key(:xhyve_booted_without_ip_address)
+      class VmnetNotAvailable < VagrantXhyveError
+        error_key(:vmnet_not_available)
       end
 
       class XhyveNotDetected < VagrantXhyveError

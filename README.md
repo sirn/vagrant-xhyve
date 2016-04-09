@@ -10,7 +10,7 @@ The plugin is in a very early state and should not be used for anything except t
 | :----------         | :-----
 | Box format          | Partially working (not finalized)
 | Cloning and booting | Partially working (in progress)
-| Network             | Partially working (vmnet only)
+| Network             | Working (vmnet only)
 | SSH                 | Working
 | SSH run             | Working
 | Port forwarding     | Not implemented

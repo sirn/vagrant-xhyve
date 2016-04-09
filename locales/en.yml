@@ -33,19 +33,19 @@ en:
           up with `vagrant up` then run this command.
 
     errors:
+      ip_address_not_available: |-
+        Vagrant-Xhyve could not obtain the IP address of the VM. This may
+        be due to the DHCP leases (/var/db/dhcpd_leases) is in a corrupted
+        state or no network interface was attached to the VM.
+
       vmnet_not_available: |-
-        Vagrant-Xhyve could not obtain MAC address from Vmnet. This is
+        Vagrant-Xhyve could not obtain the MAC address from Vmnet. This is
         usually caused by lack of permission or there is an instance of
         this VM already running.
 
         If this box is new, it could be due to Vmnet could not recognize
         the machine UUID. In this case, running `vagrant destroy` and
         run `vagrant up` again should help.
-
-      xhyve_booted_without_ip_address: |-
-        Xhyve was successfully booted, but Vagrant-Xhyve could not obtain
-        its network information. This may due to vmnet driver not being
-        loaded or a bug in Vagrant-Xhyve.
 
       xhyve_not_detected: |-
         Xhyve could not be detected on this machine. You can install Xhyve
