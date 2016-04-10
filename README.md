@@ -8,8 +8,8 @@ The plugin is in a very early state and should not be used for anything except t
 
 | Entry               | Status
 | :----------         | :-----
-| Box format          | Partially working (not finalized)
-| Cloning and booting | Partially working (in progress)
+| Box format          | Working but not finalized
+| Cloning and booting | Working
 | Network             | Working (vmnet only)
 | SSH                 | Working
 | SSH run             | Working
@@ -18,7 +18,7 @@ The plugin is in a very early state and should not be used for anything except t
 | Suspend             | Not supported by Xhyve
 | Resume              | Not supported by Xhyve
 | Force shutdown      | Working
-| Graceful shutdown   | Not implemented
+| Graceful shutdown   | Working
 | Destroying          | Working
 
 ### Installation
