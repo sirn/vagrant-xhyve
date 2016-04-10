@@ -79,6 +79,21 @@ module VagrantPlugins
         end
       end
 
+      def self.action_reload
+        Vagrant::Action::Builder.new.tap do |b|
+          b.use ConfigValidate
+          b.use Call, IsState, Vagrant::MachineState::NOT_CREATED_ID do |env, b1|
+            if env[:result]
+              b1.use Message, I18n.t('vagrant_xhyve.commands.common.vm_not_created')
+              next
+            end
+
+            b1.use action_halt
+            b1.use action_start
+          end
+        end
+      end
+
       def self.action_resume
         Vagrant::Action::Builder.new.tap do |b|
           b.use Warn, I18n.t('vagrant_xhyve.actions.vm.resume.not_supported')
@@ -135,16 +150,16 @@ module VagrantPlugins
 
       def self.action_up
         Vagrant::Action::Builder.new.tap do |b|
-          b.use Call, IsState, Vagrant::MachineState::NOT_CREATED_ID do |env, b2|
+          b.use Call, IsState, Vagrant::MachineState::NOT_CREATED_ID do |env, b1|
             if env[:result]
-              b2.use HandleBox
+              b1.use HandleBox
             end
           end
 
           b.use ConfigValidate
-          b.use Call, IsState, Vagrant::MachineState::NOT_CREATED_ID do |env, b2|
+          b.use Call, IsState, Vagrant::MachineState::NOT_CREATED_ID do |env, b1|
             if env[:result]
-              b2.use Import
+              b1.use Import
             end
           end
 

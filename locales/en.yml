@@ -53,7 +53,6 @@ en:
         https://github.com/mist64/xhyve. If Xhyve is already installed,
         make sure `xhyve` binary is in $PATH.
 
-
     states:
       short_not_created: |-
         not created
