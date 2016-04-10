@@ -53,6 +53,12 @@ module VagrantPlugins
           FileUtils.cp_r(source.to_s, image_dir)
         end
 
+        def mac_address
+          @mac_address ||= if File.exists?(mac_address_file)
+            File.read(mac_address_file).chomp.to_s
+          end
+        end
+
         def state
           if pid
             IO.popen("ps -p #{pid}").tap { |f| f.read }.close
@@ -67,12 +73,6 @@ module VagrantPlugins
 
         def image_dir
           @image_dir ||= @data_dir.join(@id)
-        end
-
-        def mac_address
-          @mac_address ||= if File.exists?(mac_address_file)
-            File.read(mac_address_file).chomp.to_s
-          end
         end
 
         def mac_address_file
