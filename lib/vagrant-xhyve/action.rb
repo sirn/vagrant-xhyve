@@ -12,6 +12,8 @@ module VagrantPlugins
       autoload :Destroy, action_root.join('destroy')
       autoload :ForcedHalt, action_root.join('forced_halt')
       autoload :Import, action_root.join('import')
+      autoload :PrepareNFSSettings, action_root.join('prepare_nfs_settings')
+      autoload :PrepareNFSValidIds, action_root.join('prepare_nfs_valid_ids')
       autoload :ReadSSHInfo, action_root.join('read_ssh_info')
       autoload :ReadState, action_root.join('read_state')
       autoload :Warn, action_root.join('warn')
@@ -20,6 +22,10 @@ module VagrantPlugins
         Vagrant::Action::Builder.new.tap do |b|
           b.use Boot
           b.use WaitForCommunicator, [:running]
+          b.use PrepareNFSValidIds
+          b.use SyncedFolderCleanup
+          b.use SyncedFolders
+          b.use PrepareNFSSettings
         end
       end
 
@@ -44,6 +50,7 @@ module VagrantPlugins
               b2.use action_halt
               b2.use Destroy
               b2.use ProvisionerCleanup
+              b2.use PrepareNFSValidIds
               b2.use SyncedFolderCleanup
             end
           end

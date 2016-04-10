@@ -8,13 +8,13 @@ The plugin is in a very early state and should not be used for anything except t
 
 | Entry               | Status
 | :----------         | :-----
-| Box format          | Working but not finalized
+| Box format          | Working (not finalized)
 | Cloning and booting | Working
 | Network             | Working (vmnet only)
 | SSH                 | Working
 | SSH run             | Working
 | Port forwarding     | Not implemented
-| NFS file sharing    | Not implemented
+| NFS file sharing    | Partially working
 | Suspend             | Not supported by Xhyve
 | Resume              | Not supported by Xhyve
 | Force shutdown      | Working
